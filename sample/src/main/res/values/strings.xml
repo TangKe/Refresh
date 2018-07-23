@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">refresh</string>
+    <string name="button_trigger">Trigger Refresh</string>
+    <string name="label_footer">This is a plain text footer</string>
+    <string-array name="load_animations">
+        <item>Load 1</item>
+        <item>Load 2</item>
+        <item>Load 3</item>
+        <item>Load 4</item>
+        <item>Load 5</item>
+        <item>Load 6</item>
+        <item>Load 7</item>
+    </string-array>
+    <string name="label_header_animations">Header Animations</string>
+    <string name="label_direction_top">Top</string>
+    <string name="label_direction_bottom">Bottom</string>
+</resources>

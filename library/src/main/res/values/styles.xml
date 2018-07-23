@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.AnimationRefreshHeaderView" parent="android:Widget">
+        <item name="android:maxHeight">100dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="Widget.TextAnimationRefreshHeaderView" parent="android:Widget">
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#cccccc</item>
+    </style>
+</resources>

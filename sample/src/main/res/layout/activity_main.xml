@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ke.tang.refresh.RefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ke.tang.refresh.AnimationRefreshView
+        android:id="@+id/header"
+        style="@style/Widget.AnimationRefreshHeaderView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        app:layout_role="header"
+        app:pullAnimation="@raw/load_7"
+        app:refreshAnimation="@raw/load_6" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/label_footer"
+        app:layout_role="footer" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_role="content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_header_animations"
+                android:textAppearance="?android:textAppearanceLarge" />
+
+            <Spinner
+                android:id="@+id/headerAnimations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical">
+
+
+                <RadioGroup
+                    android:id="@+id/directions"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checkedButton="@id/top"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/top"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/label_direction_top" />
+
+                    <RadioButton
+                        android:id="@+id/bottom"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/label_direction_bottom" />
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/trigger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClick"
+                    android:text="@string/button_trigger" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</ke.tang.refresh.RefreshLayout>
