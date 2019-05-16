@@ -13,7 +13,7 @@ ext {
     siteUrl = 'http://github.com/TangKe/Refresh'
     gitUrl = 'http://github.com/TangKe/Refresh.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = versions.versionName
 
     developerId = 'tangke'
     developerName = 'Tang Ke'
@@ -25,14 +25,13 @@ ext {
 }
 
 android {
-    compileSdkVersion 27
-    publishNonDefault true
+    compileSdkVersion versions.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0.0"
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
+        versionCode versions.versionCode
+        versionName versions.versionName
     }
     buildTypes {
         release {
@@ -58,7 +57,7 @@ tasks.javadoc {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.android.support:appcompat-v7:27.1.1"
-    implementation "com.android.support:design:27.1.1"
-    api "com.airbnb.android:lottie:2.5.5"
+    implementation "com.android.support:appcompat-v7:$versions.library.support"
+    implementation "com.android.support:design:$versions.library.support"
+    api "com.airbnb.android:lottie:$versions.library.lottie"
 }

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center"
-        app:layout_role="header"
+        app:layout_refresh_role="header"
         app:pullAnimation="@raw/load_7"
         app:refreshAnimation="@raw/load_6" />
 
@@ -20,12 +20,12 @@
         android:layout_height="50dp"
         android:gravity="center"
         android:text="@string/label_footer"
-        app:layout_role="footer" />
+        app:layout_refresh_role="footer" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_role="content">
+        app:layout_refresh_role="content">
 
         <LinearLayout
             android:layout_width="match_parent"

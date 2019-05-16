@@ -664,7 +664,7 @@ public class RefreshLayout extends ViewGroup implements NestedScrollingParent, N
         public LayoutParams(Context c, AttributeSet attrs) {
             super(c, attrs);
             TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.RefreshLayout_LayoutParams);
-            role = a.getInt(R.styleable.RefreshLayout_LayoutParams_layout_role, 0);
+            role = a.getInt(R.styleable.RefreshLayout_LayoutParams_layout_refresh_role, 0);
             gravity = a.getInt(R.styleable.RefreshLayout_LayoutParams_android_layout_gravity, Gravity.NO_GRAVITY);
             a.recycle();
             if (role <= 0 && role > 3) {
