@@ -22,7 +22,7 @@
         android:text="@string/label_footer"
         app:layout_refresh_role="footer" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_refresh_role="content">
@@ -83,5 +83,5 @@
                     android:text="@string/button_trigger" />
             </LinearLayout>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </ke.tang.refresh.RefreshLayout>

@@ -4,9 +4,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.RawRes;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+
+import androidx.annotation.RawRes;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieComposition;
