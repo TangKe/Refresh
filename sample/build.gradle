@@ -22,6 +22,12 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude 'META-INF/proguard/coroutines.pro'
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -31,4 +37,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$versions.library.recyclerView"
     implementation project(':library')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
+    implementation "androidx.core:core-ktx:$versions.library.ktx"
+    implementation "androidx.fragment:fragment-ktx:$versions.library.ktxFragment"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.library.coroutines"
 }
