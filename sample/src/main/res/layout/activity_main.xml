@@ -8,8 +8,10 @@
     <ke.tang.refresh.AnimationRefreshView
         android:id="@+id/header"
         style="@style/Widget.AnimationRefreshHeaderView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="50dp"
         android:gravity="center"
         app:layout_refresh_role="header"
         app:pullAnimation="@raw/load_7"

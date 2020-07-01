@@ -2,11 +2,16 @@
 <resources>
     <attr name="refreshLayoutStyle" format="reference" />
     <attr name="animationRefreshHeaderViewStyle" format="reference" />
-    <attr name="textAnimationRefreshHeaderViewStyle" format="reference" />
+    <attr name="refreshableLinearLayoutStyle" format="reference" />
 
-    <declare-styleable name="RefreshLayout"></declare-styleable>
+    <declare-styleable name="RefreshLayout">
+        <attr name="refreshAxis" format="enum">
+            <enum name="vertical" value="1" />
+            <enum name="horizontal" value="2" />
+        </attr>
+    </declare-styleable>
 
-    <declare-styleable name="RefreshLayout_LayoutParams">
+    <declare-styleable name="RefreshLayout_Layout">
         <attr name="layout_refresh_role" format="enum">
             <enum name="header" value="1" />
             <enum name="footer" value="2" />
@@ -18,13 +23,5 @@
     <declare-styleable name="AnimationRefreshView">
         <attr name="pullAnimation" format="reference" />
         <attr name="refreshAnimation" format="reference" />
-    </declare-styleable>
-    <declare-styleable name="TextAnimationRefreshView">
-        <attr name="android:textColor" />
-        <attr name="android:textSize" />
-        <attr name="android:text" />
-        <attr name="android:singleLine" />
-        <attr name="pullAnimation" />
-        <attr name="refreshAnimation" />
     </declare-styleable>
 </resources>
