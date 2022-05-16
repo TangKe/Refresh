@@ -9,23 +9,25 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import ke.tang.refresh.OnRefreshListener
-import ke.tang.refresh.RefreshObservable
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), OnRefreshListener, View.OnClickListener, OnItemSelectedListener {
+class MainActivity : AppCompatActivity(), OnRefreshListener, View.OnClickListener,
+    OnItemSelectedListener {
     private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         refresh?.setOnRefreshListener(this)
-        headerAnimations.adapter = ArrayAdapter.createFromResource(this, R.array.load_animations, android.R.layout.simple_dropdown_item_1line)
+        headerAnimations.adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.load_animations,
+            android.R.layout.simple_dropdown_item_1line
+        )
         headerAnimations.onItemSelectedListener = this
         viewModel.data.observe(this, Observer {
             refresh?.completeRefresh()
         })
     }
-
-    override fun onRefreshComplete(observable: RefreshObservable) = false
 
     override fun onRefreshStart(isFromTop: Boolean) {
         viewModel.requestData()

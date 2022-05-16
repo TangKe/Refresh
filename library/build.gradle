@@ -1,29 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'Refresh'
-
-    publishedGroupId = 'ke.tang'
-    libraryName = 'Refresh'
-    artifact = 'refresh'
-
-    libraryDescription = 'A virtual ruler widget for android'
-
-    siteUrl = 'http://github.com/TangKe/Refresh'
-    gitUrl = 'http://github.com/TangKe/Refresh.git'
-
-    libraryVersion = versions.versionName
-
-    developerId = 'tangke'
-    developerName = 'Tang Ke'
-    developerEmail = 'tang.ke@me.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion versions.compileSdkVersion
@@ -50,15 +27,42 @@ android {
     }
 }
 
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+task sourceJar(type: Jar) {
+    archiveClassifier = 'sources'
+    android.libraryVariants.all {
+        from it.sourceSets.java.srcDirs
+    }
+}
 
-tasks.javadoc {
-    configurations.api.setCanBeResolved(true)
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator)) + configurations.api
-    options.encoding "UTF-8"
-    options.charSet 'UTF-8'
-    failOnError false
+afterEvaluate {
+    Properties properties = new Properties()
+    properties.load(rootProject.file('local.properties').newDataInputStream())
+    String mavenUsername = properties.getProperty('maven.user')
+    String mavenPassword = properties.getProperty('maven.password')
+    String repository = properties.getProperty('maven.repository')
+    Boolean includeSource = Boolean.parseBoolean(properties.getProperty('maven.includeSource'))
+    publishing {
+        repositories {
+            maven {
+                url = repository
+                credentials {
+                    username = mavenUsername
+                    password = mavenPassword
+                }
+            }
+        }
+        publications {
+            maven(MavenPublication) {
+                groupId = 'ke.tang'
+                artifactId = 'refresh'
+                version = versions.versionName
+                from components.release
+                if (includeSource) {
+                    artifact sourceJar
+                }
+            }
+        }
+    }
 }
 
 dependencies {

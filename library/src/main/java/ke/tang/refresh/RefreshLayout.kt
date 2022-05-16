@@ -13,9 +13,9 @@ import kotlin.math.abs
 import kotlin.math.max
 
 class RefreshLayout @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = R.attr.refreshLayoutStyle
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = R.attr.refreshLayoutStyle
 ) : ViewGroup(context, attrs, defStyleAttr), NestedScrollingChild, NestedScrollingParent {
     private val mScroller by lazy { Scroller(context) }
     private val mTouchSlop by lazy { ViewConfiguration.get(context).scaledTouchSlop }
@@ -72,9 +72,18 @@ class RefreshLayout @JvmOverloads constructor(
                     targetWidth = max(targetWidth, it.measuredWidth)
                 }
             }
-            measureChildWithMargins(it, widthMeasureSpec, paddingLeft + paddingRight, heightMeasureSpec, paddingTop + paddingBottom)
+            measureChildWithMargins(
+                it,
+                widthMeasureSpec,
+                paddingLeft + paddingRight,
+                heightMeasureSpec,
+                paddingTop + paddingBottom
+            )
         }
-        setMeasuredDimension(View.resolveSize(targetWidth, widthMeasureSpec), View.resolveSize(targetHeight, heightMeasureSpec))
+        setMeasuredDimension(
+            View.resolveSize(targetWidth, widthMeasureSpec),
+            View.resolveSize(targetHeight, heightMeasureSpec)
+        )
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -158,7 +167,8 @@ class RefreshLayout @JvmOverloads constructor(
                 bottom = top + childMeasuredHeight
             }
             Gravity.CENTER_VERTICAL -> {
-                top = (height - paddingTop - paddingBottom - childMeasuredHeight - layoutParams.topMargin - layoutParams.bottomMargin) / 2
+                top =
+                    (height - paddingTop - paddingBottom - childMeasuredHeight - layoutParams.topMargin - layoutParams.bottomMargin) / 2
                 bottom = top + childMeasuredHeight
             }
             Gravity.BOTTOM -> {
@@ -184,7 +194,8 @@ class RefreshLayout @JvmOverloads constructor(
                 right = left + childMeasuredWidth
             }
             Gravity.CENTER_HORIZONTAL -> {
-                left = (width - paddingLeft - paddingRight - childMeasuredWidth - layoutParams.leftMargin - layoutParams.rightMargin) / 2
+                left =
+                    (width - paddingLeft - paddingRight - childMeasuredWidth - layoutParams.leftMargin - layoutParams.rightMargin) / 2
                 right = left + childMeasuredWidth
             }
             Gravity.END -> {
@@ -213,7 +224,8 @@ class RefreshLayout @JvmOverloads constructor(
                 right = left + childMeasuredWidth
             }
             Gravity.CENTER_HORIZONTAL -> {
-                left = (width - paddingLeft - paddingRight - childMeasuredWidth - layoutParams.leftMargin - layoutParams.rightMargin) / 2
+                left =
+                    (width - paddingLeft - paddingRight - childMeasuredWidth - layoutParams.leftMargin - layoutParams.rightMargin) / 2
                 right = left + childMeasuredWidth
             }
             Gravity.END -> {
@@ -232,7 +244,8 @@ class RefreshLayout @JvmOverloads constructor(
                 bottom = top + childMeasuredHeight
             }
             Gravity.CENTER_VERTICAL -> {
-                top = (height - paddingTop - paddingBottom - layoutParams.topMargin - layoutParams.bottomMargin) / 2
+                top =
+                    (height - paddingTop - paddingBottom - layoutParams.topMargin - layoutParams.bottomMargin) / 2
                 bottom = top + childMeasuredHeight
             }
             Gravity.BOTTOM -> {
@@ -248,9 +261,9 @@ class RefreshLayout @JvmOverloads constructor(
         content.layout(left, top, right, bottom)
     }
 
-    override fun addView(child: View?, index: Int, params: ViewGroup.LayoutParams?) {
-        super.addView(child, index, params)
-        when ((params as LayoutParams).role) {
+    override fun onViewAdded(child: View) {
+        super.onViewAdded(child)
+        when ((child.layoutParams as LayoutParams).role) {
             LayoutParams.ROLE_HEADER -> {
                 mHeader = child
                 mHeaderRefreshable = child as? Refreshable
@@ -265,7 +278,26 @@ class RefreshLayout @JvmOverloads constructor(
         }
     }
 
-    override fun generateDefaultLayoutParams() = LayoutParams(MarginLayoutParams.MATCH_PARENT, MarginLayoutParams.WRAP_CONTENT)
+    override fun onViewRemoved(child: View) {
+        super.onViewRemoved(child)
+        when ((child.layoutParams as LayoutParams).role) {
+            LayoutParams.ROLE_HEADER -> {
+                mHeader = null
+                mHeaderRefreshable = null
+            }
+            LayoutParams.ROLE_FOOTER -> {
+                mFooter = null
+                mFooterRefreshable = null
+            }
+            LayoutParams.ROLE_CONTENT -> {
+                mContent = null
+            }
+        }
+    }
+
+    override fun generateDefaultLayoutParams() =
+        LayoutParams(MarginLayoutParams.MATCH_PARENT, MarginLayoutParams.WRAP_CONTENT)
+
     override fun generateLayoutParams(attrs: AttributeSet?) = LayoutParams(context, attrs)
     override fun generateLayoutParams(p: ViewGroup.LayoutParams?) = LayoutParams(p)
 
@@ -277,12 +309,35 @@ class RefreshLayout @JvmOverloads constructor(
 
     override fun stopNestedScroll() = mChildHelper.stopNestedScroll()
     override fun hasNestedScrollingParent() = mChildHelper.hasNestedScrollingParent()
-    override fun dispatchNestedScroll(dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int, offsetInWindow: IntArray?) = mChildHelper.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow)
-    override fun dispatchNestedPreScroll(dx: Int, dy: Int, consumed: IntArray?, offsetInWindow: IntArray?) = mChildHelper.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow)
-    override fun dispatchNestedFling(velocityX: Float, velocityY: Float, consumed: Boolean) = mChildHelper.dispatchNestedFling(velocityX, velocityY, consumed)
-    override fun dispatchNestedPreFling(velocityX: Float, velocityY: Float) = mChildHelper.dispatchNestedPreFling(velocityX, velocityY)
+    override fun dispatchNestedScroll(
+        dxConsumed: Int,
+        dyConsumed: Int,
+        dxUnconsumed: Int,
+        dyUnconsumed: Int,
+        offsetInWindow: IntArray?
+    ) = mChildHelper.dispatchNestedScroll(
+        dxConsumed,
+        dyConsumed,
+        dxUnconsumed,
+        dyUnconsumed,
+        offsetInWindow
+    )
 
-    override fun onStartNestedScroll(child: View, target: View, nestedScrollAxes: Int) = child === mContent && if (mRefreshAxis == REFRESH_VERTICAL) nestedScrollAxes and ViewCompat.SCROLL_AXIS_VERTICAL == ViewCompat.SCROLL_AXIS_VERTICAL else nestedScrollAxes and ViewCompat.SCROLL_AXIS_HORIZONTAL == ViewCompat.SCROLL_AXIS_HORIZONTAL
+    override fun dispatchNestedPreScroll(
+        dx: Int,
+        dy: Int,
+        consumed: IntArray?,
+        offsetInWindow: IntArray?
+    ) = mChildHelper.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow)
+
+    override fun dispatchNestedFling(velocityX: Float, velocityY: Float, consumed: Boolean) =
+        mChildHelper.dispatchNestedFling(velocityX, velocityY, consumed)
+
+    override fun dispatchNestedPreFling(velocityX: Float, velocityY: Float) =
+        mChildHelper.dispatchNestedPreFling(velocityX, velocityY)
+
+    override fun onStartNestedScroll(child: View, target: View, nestedScrollAxes: Int) =
+        child === mContent && if (mRefreshAxis == REFRESH_VERTICAL) nestedScrollAxes and ViewCompat.SCROLL_AXIS_VERTICAL == ViewCompat.SCROLL_AXIS_VERTICAL else nestedScrollAxes and ViewCompat.SCROLL_AXIS_HORIZONTAL == ViewCompat.SCROLL_AXIS_HORIZONTAL
 
     override fun onNestedScrollAccepted(child: View, target: View, axes: Int) {
         super.onNestedScrollAccepted(child, target, axes)
@@ -312,7 +367,13 @@ class RefreshLayout @JvmOverloads constructor(
     }
 
 
-    override fun onNestedScroll(target: View, dxConsumed: Int, dyConsumed: Int, dxUnconsumed: Int, dyUnconsumed: Int) {
+    override fun onNestedScroll(
+        target: View,
+        dxConsumed: Int,
+        dyConsumed: Int,
+        dxUnconsumed: Int,
+        dyUnconsumed: Int
+    ) {
         if (mRefreshAxis == REFRESH_VERTICAL) {
             if (0 != dyUnconsumed) {
                 mScroller.abortAnimation()
@@ -345,9 +406,18 @@ class RefreshLayout @JvmOverloads constructor(
         }
     }
 
-    override fun onNestedFling(target: View, velocityX: Float, velocityY: Float, consumed: Boolean) = mState in STATE_REFRESH_PROCESS
-    override fun onNestedPreFling(target: View, velocityX: Float, velocityY: Float) = mState in STATE_REFRESH_PROCESS
-    override fun getNestedScrollAxes() = if (mRefreshAxis == REFRESH_VERTICAL) ViewCompat.SCROLL_AXIS_VERTICAL else ViewCompat.SCROLL_AXIS_HORIZONTAL
+    override fun onNestedFling(
+        target: View,
+        velocityX: Float,
+        velocityY: Float,
+        consumed: Boolean
+    ) = mState in STATE_REFRESH_PROCESS
+
+    override fun onNestedPreFling(target: View, velocityX: Float, velocityY: Float) =
+        mState in STATE_REFRESH_PROCESS
+
+    override fun getNestedScrollAxes() =
+        if (mRefreshAxis == REFRESH_VERTICAL) ViewCompat.SCROLL_AXIS_VERTICAL else ViewCompat.SCROLL_AXIS_HORIZONTAL
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -500,7 +570,11 @@ class RefreshLayout @JvmOverloads constructor(
                     mState = STATE_REFRESHING
                     mTargetState = STATE_REFRESHING
                     it.onRelease(true)
-                    animateContentToPosition(if (isFromHeader) -it.getContentSize(mRefreshVertical) else it.getContentSize(mRefreshVertical))
+                    animateContentToPosition(
+                        if (isFromHeader) -it.getContentSize(mRefreshVertical) else it.getContentSize(
+                            mRefreshVertical
+                        )
+                    )
                 }
             }
         }
@@ -514,15 +588,16 @@ class RefreshLayout @JvmOverloads constructor(
         mOnRefreshStateChangeListener = onRefreshStateChangeListener
     }
 
-    override fun onSaveInstanceState(): Parcelable? = SavedState(super.onSaveInstanceState()).apply {
-        mState = this@RefreshLayout.mState
-        mContentOffset = this@RefreshLayout.mContentOffset
-        mLastTarget = when (this@RefreshLayout.mLastTarget) {
-            mHeader -> TARGET_HEADER
-            mFooter -> TARGET_FOOTER
-            else -> TARGET_NONE
+    override fun onSaveInstanceState(): Parcelable? =
+        SavedState(super.onSaveInstanceState()).apply {
+            mState = this@RefreshLayout.mState
+            mContentOffset = this@RefreshLayout.mContentOffset
+            mLastTarget = when (this@RefreshLayout.mLastTarget) {
+                mHeader -> TARGET_HEADER
+                mFooter -> TARGET_FOOTER
+                else -> TARGET_NONE
+            }
         }
-    }
 
     override fun onRestoreInstanceState(state: Parcelable?) = with(state as SavedState) {
         super.onRestoreInstanceState(superState)
@@ -575,11 +650,16 @@ class RefreshLayout @JvmOverloads constructor(
          * [Gravity.CENTER_VERTICAL]
          * [Gravity.CENTER]
          *
-         * 重力，对于Header和Footer只支持[Gravity.LEFT]，[Gravity.RIGHT]，[Gravity.CENTER_HORIZONTAL]
+         * 重力，对于Header和Footer只支持[Gravity.LEFT]，[Gravity.RIGHT]，[Gravity.CENTER_HORIZONTAL]，[Gravity.TOP]，[Gravity.BOTTOM]，[Gravity.CENTER_VERTICAL]
          */
         var gravity = Gravity.NO_GRAVITY
 
-        constructor(width: Int, height: Int, role: Int = 0, gravity: Int = Gravity.NO_GRAVITY) : super(width, height) {
+        constructor(
+            width: Int,
+            height: Int,
+            role: Int = 0,
+            gravity: Int = Gravity.NO_GRAVITY
+        ) : super(width, height) {
             this.role = role
             this.gravity = gravity
         }
@@ -589,9 +669,12 @@ class RefreshLayout @JvmOverloads constructor(
         constructor(c: Context, attrs: AttributeSet?) : super(c, attrs) {
             val a = c.obtainStyledAttributes(attrs, R.styleable.RefreshLayout_Layout)
             role = a.getInt(R.styleable.RefreshLayout_Layout_layout_refresh_role, 0)
-            gravity = a.getInt(R.styleable.RefreshLayout_Layout_android_layout_gravity, Gravity.NO_GRAVITY)
+            gravity = a.getInt(
+                R.styleable.RefreshLayout_Layout_android_layout_gravity,
+                Gravity.NO_GRAVITY
+            )
             a.recycle()
-            require(role in ROLE_HEADER..ROLE_CONTENT) { "You must set a layout_role attribute to your view" }
+            require(role in ROLE_HEADER..ROLE_CONTENT) { "You must set a layout_refresh_role attribute to your view" }
         }
 
         companion object {
