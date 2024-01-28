@@ -9,33 +9,35 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import ke.tang.refresh.OnRefreshListener
-import kotlinx.android.synthetic.main.activity_main.*
+import ke.tang.refresh.sample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), OnRefreshListener, View.OnClickListener,
     OnItemSelectedListener {
     private val viewModel: MainViewModel by viewModels()
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        refresh?.setOnRefreshListener(this)
-        headerAnimations.adapter = ArrayAdapter.createFromResource(
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.refresh.setOnRefreshListener(this)
+        binding.headerAnimations.adapter = ArrayAdapter.createFromResource(
             this,
             R.array.load_animations,
             android.R.layout.simple_dropdown_item_1line
         )
-        headerAnimations.onItemSelectedListener = this
+        binding.headerAnimations.onItemSelectedListener = this
         viewModel.data.observe(this, Observer {
-            refresh?.completeRefresh()
+            binding.refresh.completeRefresh()
         })
     }
 
-    override fun onRefreshStart(isFromTop: Boolean) {
+    override fun onRefreshStart(isHeader: Boolean) {
         viewModel.requestData()
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.trigger -> refresh.setRefresh(directions?.checkedRadioButtonId == R.id.top)
+            R.id.trigger -> binding.refresh.setRefresh(binding.directions.checkedRadioButtonId == R.id.top)
         }
     }
 
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity(), OnRefreshListener, View.OnClickListene
             6 -> R.raw.load_7 to R.raw.load_7
             else -> R.raw.load_1 to R.raw.load_1
         }
-        header?.apply {
+        binding.header.apply {
             setPullAnimation(pull)
             setRefreshAnimation(refresh)
         }

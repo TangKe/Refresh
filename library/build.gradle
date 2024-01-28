@@ -5,6 +5,8 @@ apply plugin: 'maven-publish'
 android {
     compileSdkVersion versions.compileSdkVersion
 
+    namespace 'ke.tang.refresh'
+
     defaultConfig {
         minSdkVersion versions.minSdkVersion
         targetSdkVersion versions.targetSdkVersion
@@ -27,38 +29,34 @@ android {
     }
 }
 
-task sourceJar(type: Jar) {
-    archiveClassifier = 'sources'
-    android.libraryVariants.all {
-        from it.sourceSets.java.srcDirs
-    }
-}
-
-afterEvaluate {
-    Properties properties = new Properties()
-    properties.load(rootProject.file('local.properties').newDataInputStream())
-    String mavenUsername = properties.getProperty('maven.user')
-    String mavenPassword = properties.getProperty('maven.password')
-    String repository = properties.getProperty('maven.repository')
-    Boolean includeSource = Boolean.parseBoolean(properties.getProperty('maven.includeSource'))
-    publishing {
-        repositories {
-            maven {
-                url = repository
-                credentials {
-                    username = mavenUsername
-                    password = mavenPassword
-                }
-            }
-        }
-        publications {
-            maven(MavenPublication) {
-                groupId = 'ke.tang'
-                artifactId = 'refresh'
-                version = versions.versionName
+publishing {
+    publications {
+        release(MavenPublication) {
+            artifactId = 'Refresh'
+            groupId = 'com.github.Tangke'
+            version = versions.versionName
+            afterEvaluate {
                 from components.release
-                if (includeSource) {
-                    artifact sourceJar
+            }
+            pom {
+                name = 'Refresh'
+                description = 'A simple refresh layout for android'
+                url = 'http://github.com/TangKe/Refresh'
+                licenses {
+                    license {
+                        name = 'The Apache Software License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'tangke'
+                        name = 'Tang Ke'
+                        email = 'tang.ke@me.com'
+                    }
+                }
+                scm {
+                    url = 'http://github.com/TangKe/Refresh.git'
                 }
             }
         }

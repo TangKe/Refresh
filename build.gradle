@@ -3,8 +3,11 @@
 buildscript {
     apply from: 'version.gradle'
     repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven() { url 'https://maven.aliyun.com/nexus/content/repositories/google/' }
         google()
-        maven { url 'https://repo.huaweicloud.com/repository/maven/' }
+        maven { url 'https://jitpack.io' }
+        mavenCentral()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$versions.build"
@@ -14,8 +17,11 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+        maven() { url 'https://maven.aliyun.com/nexus/content/repositories/google/' }
         google()
-        maven { url 'https://repo.huaweicloud.com/repository/maven/' }
+        maven { url 'https://jitpack.io' }
+        mavenCentral()
     }
 }
 
