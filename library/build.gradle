@@ -20,6 +20,13 @@ android {
         }
     }
 
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+    }
+
     lintOptions {
         abortOnError false
     }
